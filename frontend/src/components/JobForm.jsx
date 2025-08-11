@@ -91,29 +91,23 @@ const JobForm = () => {
     const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/jobs`, submissionData);
 
     if (res.status === 201) {
-      console.log("Technician for notification:", formData.technician);
+  alert('✅ Job submitted successfully!');
 
-      // Send notification if technician is assigned
-      if (formData.technician) {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/notifications`, {
-          username: formData.technician,  // <-- Correct field name
-          message: 'You have a new task assigned! JOB Number: ' + formData.jobRef,
-        });
-      }
+  // Reset form with new jobRef and current user info
+  const user = JSON.parse(localStorage.getItem('user'));
+  const today = new Date().toISOString().split('T')[0];
+  const refRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/nextRef`);
+  const newRef = refRes.data.nextJobRef || 'IDSJBN-00-00-000';
 
-      alert('✅ Job submitted successfully!');
+  setFormData({
+    ...initialFormData(user, today),
+    jobRef: newRef,
+  });
+}
 
-      // Reset form with new jobRef and current user info
-      const user = JSON.parse(localStorage.getItem('user'));
-      const today = new Date().toISOString().split('T')[0];
-      const refRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/nextRef`);
-      const newRef = refRes.data.nextJobRef || 'IDSJBN-00-00-000';
-
-      setFormData({
-        ...initialFormData(user, today),
-        jobRef: newRef,
-      });
-    } else {
+    
+    else 
+      {
       alert(`❌ Failed to submit job: ${res.data.message || 'Unknown error'}`);
     }
   } catch (error) {
