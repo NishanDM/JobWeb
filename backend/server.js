@@ -8,6 +8,7 @@ const User = require('./models/User');
 const Job = require('./models/Job');
 const Customer = require('./models/Customer');
 const Notification = require('./models/Notification');
+const completedJobRoutes = require('./routes/completedJobRoutes');
 
 
 const notificationRoutes = require('./routes/notifications');
@@ -303,7 +304,7 @@ app.get('/api/customers/by-phone/:phone', async (req, res) => {
 // Notifications route
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/email', emailRoutes);
-
+app.use('/api/jobs', completedJobRoutes);
 
 // ------------------- Server Init -------------------
 const PORT = process.env.PORT || 10000;
