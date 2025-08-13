@@ -6,6 +6,7 @@ import JobForm from '../components/JobForm';
 import AllJobs from '../components/AllJobs'; // Assuming you have an AllJobs component
 import Register from '../components/Register';
 import MyJobs from '../components/MyJobs';
+import CompletedJobs from '../components/CompletedJobs'; // Assuming you have a CompletedJobs component
 import { NavLink } from 'react-router-dom';
 
 
@@ -33,6 +34,7 @@ const CreatorProfile = () => {
     { id: 'allJobs', label: 'All Jobs' },
     { id: 'registerTechnician', label: 'Register' },
     { id: 'editProfile', label: 'Edit Profile' },
+    { id: 'completedJobs', label: 'Completed Jobs' },
   ];
 
   return (
@@ -128,6 +130,8 @@ const CreatorProfile = () => {
               {/* TODO: Add edit profile form */}
             </div>
           )}
+          {activeTab === 'completedJobs' && <CompletedJobs />}
+          
         </main>
       </div>
     </div>
