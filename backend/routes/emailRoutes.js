@@ -15,7 +15,7 @@ router.post('/sendJobStart', async (req, res) => {
 
   try {
     const transporter = nodemailer.createTransport({
-      service: 'gmail', // or your SMTP service
+      service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -23,17 +23,22 @@ router.post('/sendJobStart', async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"Job Tracker" <${process.env.EMAIL_USER}>`,
       to,
       subject: subject || 'Job Started',
-      text: message,
+      text: message, // Plain text
+      html: message.replace(/\n/g, '<br>'), // HTML version
     });
 
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
     console.error('Email sending error:', error);
-    res.status(500).json({ message: 'Failed to send email', error: error.message });
+    res.status(500).json({ 
+      message: 'Failed to send email', 
+      error: error.message 
+    });
   }
 });
+
 
 module.exports = router;
