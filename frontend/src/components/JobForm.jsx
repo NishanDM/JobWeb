@@ -76,7 +76,50 @@ const JobForm = () => {
     initializeForm();
   }, []);
 
-  const handleSubmit = async (e) => {
+//   const handleSubmit = async (e) => {
+//   e.preventDefault();
+
+//   // Prepare submission data (join arrays to comma-separated strings)
+//   const submissionData = {
+//     ...formData,
+//     faults: formData.faults.join(', '),
+//     repaired_accessories: formData.repaired_accessories.join(', '),
+//   };
+
+//   try {
+//     // Submit job to backend
+//     const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/jobs`, submissionData);
+
+//     if (res.status === 201) {
+//   alert('✅ Job submitted successfully!');
+
+//   // Reset form with new jobRef and current user info
+//   const user = JSON.parse(localStorage.getItem('user'));
+//   const today = new Date().toISOString().split('T')[0];
+//   const refRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/nextRef`);
+//   const newRef = refRes.data.nextJobRef || 'IDSJBN-00-00-000';
+
+//   setFormData({
+//     ...initialFormData(user, today),
+//     jobRef: newRef,
+//   });
+// }
+
+    
+//     else 
+//       {
+//       alert(`❌ Failed to submit job: ${res.data.message || 'Unknown error'}`);
+//     }
+//   } catch (error) {
+//     console.error('Submit Error:', error);
+
+//     // More informative alert message if available from server
+//     const errorMsg = error.response?.data?.message || error.message || 'Error occurred while submitting the job.';
+//     alert(`❌ ${errorMsg}`);
+//   }
+// };
+
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   // Prepare submission data (join arrays to comma-separated strings)
@@ -91,23 +134,34 @@ const JobForm = () => {
     const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/jobs`, submissionData);
 
     if (res.status === 201) {
-  alert('✅ Job submitted successfully!');
+      alert('✅ Job submitted successfully!');
 
-  // Reset form with new jobRef and current user info
-  const user = JSON.parse(localStorage.getItem('user'));
-  const today = new Date().toISOString().split('T')[0];
-  const refRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/nextRef`);
-  const newRef = refRes.data.nextJobRef || 'IDSJBN-00-00-000';
+      // 📧 Send email to customer
+      if (formData.customerEmail) {
+        try {
+          await axios.post(`${import.meta.env.VITE_API_URL}/api/email/sendJobStart`, {
+            to: formData.customerEmail,
+            subject: 'Job Started',
+            message: `Dear valued customer, we started your job. The job number is ${formData.jobRef}`,
+          });
+          console.log('📧 Customer email sent successfully');
+        } catch (emailErr) {
+          console.error('Email sending failed:', emailErr);
+          alert('⚠ Job created but failed to send customer email.');
+        }
+      }
 
-  setFormData({
-    ...initialFormData(user, today),
-    jobRef: newRef,
-  });
-}
+      // Reset form with new jobRef and current user info
+      const user = JSON.parse(localStorage.getItem('user'));
+      const today = new Date().toISOString().split('T')[0];
+      const refRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/nextRef`);
+      const newRef = refRes.data.nextJobRef || 'IDSJBN-00-00-000';
 
-    
-    else 
-      {
+      setFormData({
+        ...initialFormData(user, today),
+        jobRef: newRef,
+      });
+    } else {
       alert(`❌ Failed to submit job: ${res.data.message || 'Unknown error'}`);
     }
   } catch (error) {
@@ -118,7 +172,6 @@ const JobForm = () => {
     alert(`❌ ${errorMsg}`);
   }
 };
-
 
 
   return (
