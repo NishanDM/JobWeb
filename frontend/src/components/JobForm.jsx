@@ -142,7 +142,22 @@ const handleSubmit = async (e) => {
           await axios.post(`${import.meta.env.VITE_API_URL}/api/email/sendJobStart`, {
             to: formData.customerEmail,
             subject: 'Job Started',
-            message: `Dear valued customer, we started your job. The job number is ${formData.jobRef}`,
+            message: `Dear valued customer, ${formData.customerPrefix}${formData.customerName} We have started your job. Your job number is ${formData.jobRef}.
+            Date: ${formData.createdDate}. Your device details are here.....
+            Device Type : ${formData.deviceType}
+            Device Model : ${formData.model}
+            Device Serial Number : ${formData.series} 
+            EMEI Number : ${formData.emei}
+            Capacity : ${formData.capacity}
+            Color : ${formData.color}
+            Passcode : ${formData.passcode}
+            SIM Tray Collected : ${formData.simTrayCollected} 
+            
+            Your Jb Details are......
+            Under Warranty or not : ${formData.underWarranty}
+            Falts : ${formData.faults}
+            Other collected accessories : ${formData.collected_accessories}
+            Est. Date for collection for the device : ${formData.estimatedCompletion}`,          
           });
           console.log('📧 Customer email sent successfully');
         } catch (emailErr) {
