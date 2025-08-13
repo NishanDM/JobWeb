@@ -118,7 +118,7 @@
     "Apple Watch Ultra",
     "Apple Watch Ultra 2"
   ],
-  "Other": [
+  "Other - Apple Devices": [
     "HomePod",
     "HomePod mini",
     "Apple TV HD",
@@ -134,7 +134,67 @@
     "Beats Studio Buds",
     "Beats Fit Pro",
     "Beats Flex"
-  ]
-  
+  ],
+  "Other Brand - Laptop": [
+  "HP Laptop",
+  "Dell Laptop",
+  "Acer Laptop",
+  "Lenovo Laptop",
+  "Asus Laptop",
+  "Samsung Laptop",
+  "MSI Laptop",
+  "Razer Laptop",
+  "Microsoft Surface Laptop",
+  "Toshiba Laptop",
+  "Fujitsu Laptop",
+  "LG Laptop",
+  "Huawei Laptop",
+  "Google Pixelbook",
+  "Panasonic Toughbook"
+],
+  "Other Brand - Phone": [
+  "Samsung",
+  "Motorola",
+  "OPPO",
+  "LG",
+  "Sony",
+  "Nokia",
+  "OnePlus",
+  "Xiaomi",
+  "Realme",
+  "Vivo",
+  "Huawei",
+  "Google Pixel",
+  "HTC",
+  "Asus",
+  "Honor",
+  "ZTE",
+  "Infinix",
+  "Tecno",
+  "Lenovo",
+  "Nothing Phone"
+],
+  "Other Brand - Tablet": [
+  "Samsung",
+  "Huawei",
+  "Lenovo",
+  "Microsoft Surface",
+  "Xiaomi Pad",
+  "Amazon Fire Tablet",
+  "Asus Tablet",
+  "Acer Tablet",
+  "Sony Xperia Tablet",
+  "Dell Venue Tablet",
+  "LG Tablet",
+  "Toshiba Tablet",
+  "Google Pixel Tablet",
+  "Chuwi Tablet",
+  "Teclast Tablet",
+  "Alldocube Tablet",
+  "Honor Pad",
+  "Realme Pad",
+  "ZTE Tablet",
+  "Nokia Tablet"
+]  
 }
 
