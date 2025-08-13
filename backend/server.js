@@ -9,8 +9,11 @@ const Job = require('./models/Job');
 const Customer = require('./models/Customer');
 const Notification = require('./models/Notification');
 
-const emailRoutes = require('./routes/email');
+
 const notificationRoutes = require('./routes/notifications');
+
+const emailRoutes = require('./routes/emailRoutes');
+
 
 dotenv.config();
 
@@ -299,6 +302,8 @@ app.get('/api/customers/by-phone/:phone', async (req, res) => {
 
 // Notifications route
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/email', emailRoutes);
+
 
 // ------------------- Server Init -------------------
 const PORT = process.env.PORT || 10000;
