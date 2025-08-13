@@ -140,25 +140,32 @@ const handleSubmit = async (e) => {
       if (formData.customerEmail) {
         try {
           await axios.post(`${import.meta.env.VITE_API_URL}/api/email/sendJobStart`, {
-            to: formData.customerEmail,
-            subject: 'Job Started',
-            message: `Dear valued customer, ${formData.customerPrefix}${formData.customerName} We have started your job. Your job number is ${formData.jobRef}.
-            Date: ${formData.createdDate}. Your device details are here.....
-            Device Type : ${formData.deviceType}
-            Device Model : ${formData.model}
-            Device Serial Number : ${formData.series} 
-            EMEI Number : ${formData.emei}
-            Capacity : ${formData.capacity}
-            Color : ${formData.color}
-            Passcode : ${formData.passcode}
-            SIM Tray Collected : ${formData.simTrayCollected} 
-            
-            Your Jb Details are......
-            Under Warranty or not : ${formData.underWarranty}
-            Falts : ${formData.faults}
-            Other collected accessories : ${formData.collected_accessories}
-            Est. Date for collection for the device : ${formData.estimatedCompletion}`,          
-          });
+  to: formData.customerEmail,
+  subject: 'Job Started',
+  message: `
+Dear valued customer, ${formData.customerPrefix} ${formData.customerName},
+
+We have started your job. Your job number is ${formData.jobRef}.
+Date: ${formData.createdDate}.
+
+Your device details:
+- Device Type: ${formData.deviceType}
+- Device Model: ${formData.model}
+- Device Serial Number: ${formData.series}
+- EMEI Number: ${formData.emei}
+- Capacity: ${formData.capacity}
+- Color: ${formData.color}
+- Passcode: ${formData.passcode}
+- SIM Tray Collected: ${formData.simTrayCollected ? 'Yes' : 'No'}
+
+Job details:
+- Under Warranty: ${formData.underWarranty}
+- Faults: ${formData.faults.join(', ')}
+- Other collected accessories: ${formData.collected_accessories.join(', ')}
+- Estimated Completion Date: ${formData.estimatedCompletion}
+`
+});
+
           console.log('📧 Customer email sent successfully');
         } catch (emailErr) {
           console.error('Email sending failed:', emailErr);
