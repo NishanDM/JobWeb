@@ -137,34 +137,80 @@ const handleSubmit = async (e) => {
       alert('✅ Job submitted successfully!');
 
       // 📧 Send email to customer
+      // if (formData.customerEmail) {
+      //   try {
+      //     await axios.post(`${import.meta.env.VITE_API_URL}/api/email/sendJobStart`, {
+      //       to: formData.customerEmail,
+      //       subject: 'Job Started',
+      //       message: `Dear valued customer, we started your job. The job number is ${formData.jobRef}`,
+      //     });
+      //     console.log('📧 Customer email sent successfully');
+      //   } catch (emailErr) {
+      //     console.error('Email sending failed:', emailErr);
+      //     alert('⚠ Job created but failed to send customer email.');
+      //   }
+      // }
+
+      // 📧 Send email to customer
       if (formData.customerEmail) {
         try {
+          const deviceDetails = `
+      Device Type: ${formData.deviceType}
+      Model: ${formData.model}
+      Series: ${formData.series}
+      IMEI: ${formData.emei || 'N/A'}
+      Capacity: ${formData.capacity || 'N/A'}
+      Color: ${formData.color || 'N/A'}
+      Passcode: ${formData.passcode || 'N/A'}
+      Under Warranty: ${formData.underWarranty}
+      `;
+
+          const faultsList = formData.faults.length > 0 ? formData.faults.join(', ') : 'N/A';
+
+          const emailMessage = `
+      Dear ${formData.customerName || 'Customer'},
+
+      Your job has been successfully created! Here are the details:
+
+      Job Ref: ${formData.jobRef}
+      Created Date: ${formData.createdDate}
+      Estimated Completion: ${formData.estimatedCompletion || 'Not available yet'}
+
+      Customer Details:
+      Name: ${formData.customerName}
+      Email: ${formData.customerEmail}
+      Phone: ${formData.customerPhone || 'N/A'}
+
+      Device Details:
+      ${deviceDetails}
+
+      Reported Faults: ${faultsList}
+
+      We will notify you once the job is completed.
+
+      Thank you for choosing our service!
+      `;
+
+          // await axios.post(`${import.meta.env.VITE_API_URL}/api/email/sendJobStart`, {
+          //   to: formData.customerEmail,
+          //   subject: `Job Started - ${formData.jobRef}`,
+          //   message: emailMessage,
+          // });
           await axios.post(`${import.meta.env.VITE_API_URL}/api/email/sendJobStart`, {
   to: formData.customerEmail,
   subject: 'Job Started',
-  message: `
-Dear valued customer, ${formData.customerPrefix} ${formData.customerName},
-
-We have started your job. Your job number is ${formData.jobRef}.
-Date: ${formData.createdDate}.
-
-Your device details:
-- Device Type: ${formData.deviceType}
-- Device Model: ${formData.model}
-- Device Serial Number: ${formData.series}
-- EMEI Number: ${formData.emei}
-- Capacity: ${formData.capacity}
-- Color: ${formData.color}
-- Passcode: ${formData.passcode}
-- SIM Tray Collected: ${formData.simTrayCollected ? 'Yes' : 'No'}
-
-Job details:
-- Under Warranty: ${formData.underWarranty}
-- Faults: ${formData.faults.join(', ')}
-- Other collected accessories: ${formData.collected_accessories.join(', ')}
-- Estimated Completion Date: ${formData.estimatedCompletion}
-`
+  jobDetails: {
+    jobRef: formData.jobRef,
+    customerName: formData.customerName,
+    deviceType: formData.deviceType,
+    model: formData.model,
+    series: formData.series,
+    color: formData.color,
+    faults: formData.faults,
+    estimatedCompletion: formData.estimatedCompletion,
+  },
 });
+
 
           console.log('📧 Customer email sent successfully');
         } catch (emailErr) {
@@ -172,6 +218,7 @@ Job details:
           alert('⚠ Job created but failed to send customer email.');
         }
       }
+
 
       // Reset form with new jobRef and current user info
       const user = JSON.parse(localStorage.getItem('user'));
