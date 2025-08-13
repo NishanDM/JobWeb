@@ -81,7 +81,7 @@ const MyJobs = () => {
           <th className="px-4 py-2 text-left">Customer Name</th>
           <th className="px-4 py-2 text-left">Customer Phone</th>
           <th className="px-4 py-2 text-left">Created Date</th>
-          <th className="px-4 py-2 text-left">Device Type</th>
+          <th className="px-4 py-2 text-left">Model</th>
           <th className="px-4 py-2 text-left">Status</th>
           <th className="px-4 py-2 text-left">Progress</th>
           <th className="px-4 py-2 text-left">Technician</th>
@@ -97,7 +97,7 @@ const MyJobs = () => {
             <td className="px-4 py-2">
               {new Date(job.createdAt).toLocaleDateString()}
             </td>
-            <td className="px-4 py-2">{job.deviceType}</td>
+            <td className="px-4 py-2">{job.model}</td>
             <td className="px-4 py-2">{job.status}</td>
             <td className="px-4 py-2">{job.jobProgress || '-'}</td>
             <td className="px-4 py-2">{job.technician || '-'}</td>
