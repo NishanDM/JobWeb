@@ -22,13 +22,20 @@ router.post('/sendJobStart', async (req, res) => {
       },
     });
 
+    // await transporter.sendMail({
+    //   from: `"Job Tracker" <${process.env.EMAIL_USER}>`,
+    //   to,
+    //   subject: subject || 'Job Started',
+    //   text: message, // Plain text
+    //   html: message.replace(/\n/g, '<br>'), // HTML version
+    // });
+
     await transporter.sendMail({
-      from: `"Job Tracker" <${process.env.EMAIL_USER}>`,
-      to,
-      subject: subject || 'Job Started',
-      text: message, // Plain text
-      html: message.replace(/\n/g, '<br>'), // HTML version
-    });
+        from: `"Job Tracker" <${process.env.EMAIL_USER}>`,
+        to,
+        subject: subject || 'Job Started',
+        html: message // now this will render HTML
+      });
 
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
