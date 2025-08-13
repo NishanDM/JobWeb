@@ -303,7 +303,7 @@ app.get('/api/customers/by-phone/:phone', async (req, res) => {
 
 // Notifications route
 app.use('/api/notifications', notificationRoutes);
-app.use('/api/email', emailRoutes);
+
 app.use('/api/jobs', completedJobRoutes);
 
 // ------------------- Server Init -------------------
