@@ -7,10 +7,10 @@ const router = express.Router();
 
 // POST /api/email/sendJobStart
 router.post('/sendJobStart', async (req, res) => {
-  const { to, subject, message } = req.body;
+  const { to, subject, jobDetails } = req.body;
 
-  if (!to || !message) {
-    return res.status(400).json({ message: 'Recipient email and message are required' });
+  if (!to || !jobDetails) {
+    return res.status(400).json({ message: 'Recipient email and job details are required' });
   }
 
   try {
@@ -22,28 +22,37 @@ router.post('/sendJobStart', async (req, res) => {
       },
     });
 
-    // await transporter.sendMail({
-    //   from: `"Job Tracker" <${process.env.EMAIL_USER}>`,
-    //   to,
-    //   subject: subject || 'Job Started',
-    //   text: message, // Plain text
-    //   html: message.replace(/\n/g, '<br>'), // HTML version
-    // });
+    // Build a detailed email message
+    const message = `
+      Dear ${jobDetails.customerName},
+
+      Your job (${jobDetails.jobRef}) has been started.
+
+      📱 Device Details:
+      - Type: ${jobDetails.deviceType}
+      - Model: ${jobDetails.model}
+      - Series: ${jobDetails.series}
+      - Color: ${jobDetails.color}
+
+      ⚠ Reported Faults:
+      ${jobDetails.faults.join(', ')}
+
+      🗓 Estimated Completion: ${jobDetails.estimatedCompletion || 'N/A'}
+
+      Thank you for choosing our service!
+    `;
 
     await transporter.sendMail({
-        from: `"Job Tracker" <${process.env.EMAIL_USER}>`,
-        to,
-        subject: subject || 'Job Started',
-        html: message // now this will render HTML
-      });
+      from: process.env.EMAIL_USER,
+      to,
+      subject: subject || 'Job Started',
+      text: message,
+    });
 
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
     console.error('Email sending error:', error);
-    res.status(500).json({ 
-      message: 'Failed to send email', 
-      error: error.message 
-    });
+    res.status(500).json({ message: 'Failed to send email', error: error.message });
   }
 });
 
