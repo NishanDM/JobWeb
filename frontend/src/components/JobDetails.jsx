@@ -63,11 +63,12 @@ const JobDetails = ({ formData, setFormData, technicians }) => {
 
       <Row>
         {/* Faults Section */}
+        <br /><br />
         <div className="md:col-span-4">
           <label className="block mb-1 font-medium">Faults</label>
           <div className="flex gap-2 mb-2">
             <input type="text" value={newFault} onChange={(e) => setNewFault(e.target.value)} placeholder="Enter a fault" className="w-full border rounded px-2 py-1" />
-            <button type="button" onClick={handleAddFault} className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700">Add</button>
+            <button type="button" onClick={handleAddFault} className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700">Add</button><br /><br />
           </div>
           <ul className="list-disc list-inside text-gray-700 space-y-1">
             {formData.faults.map((fault, index) => <li key={index}>{fault}</li>)}
@@ -75,7 +76,7 @@ const JobDetails = ({ formData, setFormData, technicians }) => {
         </div>
 
         {/* Repaired Accessories Section */}
-        <div className="md:col-span-2">
+        {/* <div className="md:col-span-2">
           <div className="flex items-center justify-between mb-1">
             <label className="font-medium">Accessories to be repaired</label>
             <button
@@ -111,7 +112,7 @@ const JobDetails = ({ formData, setFormData, technicians }) => {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* Customer Reported Issues */}
         <div className="md:col-span-4">
@@ -139,6 +140,7 @@ const JobDetails = ({ formData, setFormData, technicians }) => {
             >
               Add
             </button>
+            <br /><br />
           </div>
           <ul className="list-disc list-inside text-gray-700 space-y-1">
             {(formData.customer_reported || []).map((issue, index) => (
