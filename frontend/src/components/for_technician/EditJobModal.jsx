@@ -159,13 +159,54 @@ const EditJobModal = ({ editData, setEditData, onClose, onSubmit }) => {
                 onChange={handleEditChange}
                 rows={2}
               />
-              <TextArea
+               {/* <TextArea
                 label="Repaired Accessories"
                 name="repaired_accessories"
                 value={editData.repaired_accessories}
                 onChange={handleEditChange}
                 rows={2}
-              />
+              />  */}
+          <div className="col-span-2">
+          <label className="block text-xs font-medium text-gray-600">Repaired Accessories</label>
+          <div className="flex gap-2 mt-1">
+            <input
+              type="text"
+              name="newRepairedAccessory"
+              value={editData.newRepairedAccessory || ''}
+              onChange={(e) => setEditData(prev => ({ ...prev, newRepairedAccessory: e.target.value }))}
+              className="w-full border rounded px-2 py-1"
+              placeholder="Enter accessory name"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (editData.newRepairedAccessory?.trim()) {
+                  setEditData(prev => ({
+                    ...prev,
+                    repaired_accessories: [
+                      ...(prev.repaired_accessories || []),
+                      prev.newRepairedAccessory.trim()
+                    ],
+                    newRepairedAccessory: ''
+                  }));
+                }
+              }}
+              className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+            >
+              Add
+            </button>
+          </div>
+
+          {/* List of added accessories */}
+          {editData.repaired_accessories?.length > 0 && (
+            <ul className="mt-2 list-disc pl-5 text-sm text-gray-700">
+              {editData.repaired_accessories.map((acc, index) => (
+                <li key={index}>{acc}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+
             </Row>
           </Section>
 
